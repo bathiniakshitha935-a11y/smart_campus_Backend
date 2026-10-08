@@ -1,0 +1,44 @@
+# Blueprint for deploying this standalone backend repository on Render.
+services:
+  - type: web
+    name: smart-campus-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DB_HOST
+        fromDatabase:
+          name: smart-campus-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: smart-campus-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: smart-campus-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: smart-campus-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: smart-campus-db
+          property: password
+      - key: FRONTEND_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+
+databases:
+  - name: smart-campus-db
+    plan: free
+    databaseName: smart_campus
