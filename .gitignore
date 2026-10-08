@@ -1,0 +1,7 @@
+.idea/
+target/
+*.mv.db
+*.trace.db
+*.lock.db
+.env
+application-local.properties
