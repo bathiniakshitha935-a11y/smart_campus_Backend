@@ -10,4 +10,6 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/smart-campus-backend-1.0.0.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Render's DB_* values are the production datasource source of truth. Ignore
+# stale SPRING_DATASOURCE_* overrides that can replace the profile properties.
+ENTRYPOINT ["sh", "-c", "unset SPRING_DATASOURCE_URL SPRING_DATASOURCE_USERNAME SPRING_DATASOURCE_PASSWORD; exec java -jar app.jar"]
